@@ -9,6 +9,9 @@ module.exports = {
         "inter-semibold": "Inter_600SemiBold",
         "inter-bold": "Inter_700Bold",
       },
+      width: {
+        "cauisdf-qwe": "10.5rem",
+      },
     },
   },
   plugins: [],
