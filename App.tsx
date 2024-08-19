@@ -1,3 +1,4 @@
+import { StatusBar } from "react-native";
 import {
   useFonts,
   Inter_400Regular,
@@ -7,9 +8,10 @@ import {
 } from "@expo-google-fonts/inter";
 
 import { Home } from "@screens/Home";
+import { Conversion } from "@screens/Conversion";
 
 import { Loading } from "@components/Loading";
-import { StatusBar } from "react-native";
+import React from "react";
 
 export default function App() {
   const [isLoaded, error] = useFonts({
@@ -25,7 +27,7 @@ export default function App() {
 
   return (
     <>
-      <Home />
+      <Conversion />
       <StatusBar
         backgroundColor="transparent"
         barStyle={"dark-content"}

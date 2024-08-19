@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import { memo } from "react";
 import { View, Text, TextInput, FlatList, ListRenderItem } from "react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -64,7 +64,7 @@ export function Home() {
     <SafeAreaView className="h-full bg-orange-100">
       <View className="h-64 border-b border-stone-300 bg-orange-100">
         <View className="p-3">
-          <Text className="font-inter-bold text-3xl text-zinc-800">
+          <Text className="font-inter-bold text-2xl text-zinc-800">
             Convertido
           </Text>
 
