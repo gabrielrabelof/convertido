@@ -5,6 +5,7 @@ import {
   Weight,
   Coins,
   Hourglass,
+  LandPlot,
   FlaskRound,
   Scale,
 } from "lucide-react-native";
@@ -16,7 +17,7 @@ const Icon = (IconComponent: LucideIcon, color: string) => (
 export const typesOfMeasure = [
   {
     type: "Comprimento",
-    units: ["Côvado", "Dedo", "Palmo", "Braça", "Cana", "Jeira"],
+    units: ["Côvado", "Dedo", "Palmo", "Braça", "Cana"],
     icon: (color: string) => Icon(Ruler, color),
   },
   {
@@ -37,7 +38,8 @@ export const typesOfMeasure = [
       "Beca",
       "Gera",
       "Libra romana",
-      "Mina ou Arrátel",
+      "Mina",
+      "Arrátel",
       "Siclo",
       "Talento",
     ],
@@ -50,6 +52,7 @@ export const typesOfMeasure = [
       "Denário",
       "Dracma",
       "Didracma",
+      "Tetradracma",
       "Estáter",
       "Lepto",
       "Mina",
@@ -61,6 +64,11 @@ export const typesOfMeasure = [
     type: "Tempo",
     units: ["Dia", "Noite", "Hora", "Vigília"],
     icon: (color: string) => Icon(Hourglass, color),
+  },
+  {
+    type: "Área",
+    units: ["Jeira"],
+    icon: (color: string) => Icon(LandPlot, color),
   },
   {
     type: "Medidas Secas",
@@ -80,16 +88,7 @@ export const typesOfMeasure = [
   },
   {
     type: "Medidas Líquidas",
-    units: [
-      "Bato",
-      "Cado",
-      "Coro",
-      "Him",
-      "Logue",
-      "Metreta",
-      "Ômer",
-      "Sextário",
-    ],
+    units: ["Bato", "Cado", "Coro", "Him", "Logue", "Metreta", "Sextário"],
     icon: (color: string) => Icon(FlaskRound, color),
   },
 ];
