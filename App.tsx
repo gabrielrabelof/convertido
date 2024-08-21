@@ -28,7 +28,7 @@ export default function App() {
 
   return (
     <>
-      <LearnMore />
+      <Home />
       <StatusBar
         backgroundColor="transparent"
         barStyle={"dark-content"}
