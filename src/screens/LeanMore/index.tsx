@@ -6,6 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { openURL } from "expo-linking";
 
@@ -26,6 +27,12 @@ import { InfoTopic } from "@components/InfoTopic";
 import React from "react";
 
 export function LearnMore() {
+  const navigation = useNavigation();
+
+  function handleHome() {
+    navigation.navigate("home");
+  }
+
   return (
     <SafeAreaView className="flex-1 bg-orange-100">
       <ScrollView>
@@ -33,7 +40,7 @@ export function LearnMore() {
           <View className="rounded-2xl bg-stone-50 px-3 py-4 shadow-md shadow-black">
             <View className="mb-6 flex-row items-center justify-between">
               <View className="flex-row gap-3">
-                <TouchableOpacity activeOpacity={0.6}>
+                <TouchableOpacity onPress={handleHome} activeOpacity={0.6}>
                   <ChevronLeft size={28} color={colors.stone[800]} />
                 </TouchableOpacity>
                 <Text className="font-inter-bold text-xl text-stone-800">

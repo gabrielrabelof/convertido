@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ChevronLeft, ArrowDownUp, Weight } from "lucide-react-native";
@@ -11,6 +12,8 @@ import { DropdownMenu } from "@components/DropdownMenu";
 import { InfoCard } from "@components/InfoCard";
 
 export function Conversion() {
+  const navigation = useNavigation();
+
   const options = [
     { option: "gramas", tag: "g" },
     { option: "quilos", tag: "kg" },
@@ -21,6 +24,10 @@ export function Conversion() {
   const [selectedOption, setSelectedOption] = useState(options[1].tag);
   const [isSwapped, setIsSwapped] = useState(false);
 
+  function handleHome() {
+    navigation.navigate("home");
+  }
+
   function handleSwapInputs() {
     setIsSwapped(!isSwapped);
     setInputValue("");
@@ -30,7 +37,7 @@ export function Conversion() {
     <SafeAreaView className="h-full bg-orange-100">
       <View className="h-screen bg-orange-100 p-3.5">
         <View className="mb-4 flex-row items-center gap-4">
-          <TouchableOpacity activeOpacity={0.6}>
+          <TouchableOpacity onPress={handleHome} activeOpacity={0.6}>
             <ChevronLeft size={28} color={colors.stone[800]} />
           </TouchableOpacity>
           <Text className="font-inter-bold text-xl text-stone-800">

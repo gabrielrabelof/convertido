@@ -1,8 +1,16 @@
-import { memo } from "react";
-import { View, Text, TextInput, FlatList, ListRenderItem } from "react-native";
+import { memo, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  ListRenderItem,
+  TouchableOpacity,
+} from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Search } from "lucide-react-native";
+import { Search, CircleHelp } from "lucide-react-native";
 
 import { colors } from "@styles/colors";
 
@@ -19,11 +27,6 @@ type MeasureType = {
   icon: (color: string) => JSX.Element;
 };
 
-const RenderTypeOption = memo(({ item }: { item: MeasureType }) => (
-  <TypeOption icon={item.icon("white")} type={item.type} />
-));
-RenderTypeOption.displayName = "RenderTypeOption";
-
 const RenderUnitOption = memo(({ unit }: { unit: Unit }) => (
   <UnitOption
     unit={unit}
@@ -33,8 +36,26 @@ const RenderUnitOption = memo(({ unit }: { unit: Unit }) => (
 RenderUnitOption.displayName = "RenderUnitOption";
 
 export function Home() {
+  const navigation = useNavigation();
+  const measureListRef = useRef<FlatList>(null);
+
+  function handleLearnMore() {
+    navigation.navigate("learn");
+  }
+
+  function handleScrollToType(type: string) {
+    let index = typesOfMeasure.findIndex((item) => item.type === type);
+    if (index !== -1 && measureListRef.current) {
+      measureListRef.current.scrollToIndex({ index, animated: true });
+    }
+  }
+
   const renderTypeItem: ListRenderItem<MeasureType> = ({ item }) => (
-    <RenderTypeOption item={item} />
+    <TypeOption
+      icon={item.icon("white")}
+      type={item.type}
+      onPress={handleScrollToType}
+    />
   );
 
   const renderUnitItem: ListRenderItem<Unit> = ({ item: unit }) => (
@@ -42,7 +63,7 @@ export function Home() {
   );
 
   const renderMeasureItem: ListRenderItem<MeasureType> = ({ item }) => (
-    <View>
+    <>
       <View className="mb-4 mt-3 flex-row items-center justify-between p-3">
         <Text className="font-inter-semibold text-lg text-stone-800">
           {item.type}
@@ -54,21 +75,32 @@ export function Home() {
           data={item.units}
           keyExtractor={(unit) => unit}
           renderItem={renderUnitItem}
-          className="flex-row flex-wrap justify-center"
+          numColumns={2}
+          className="px-1"
         />
       )}
-    </View>
+    </>
   );
 
   return (
     <SafeAreaView className="h-full bg-orange-100">
-      <View className="h-64 border-b border-stone-300 bg-orange-100">
+      <View className="h-60 border-b border-stone-300 bg-orange-100">
         <View className="p-3">
-          <Text className="font-inter-bold text-2xl text-zinc-800">
-            Convertido
-          </Text>
+          <View className="flex-row items-center justify-between">
+            <Text className="font-inter-bold text-2xl text-zinc-800">
+              Convertido
+            </Text>
 
-          <View className="mb-1 mt-3 w-full flex-row items-center rounded-lg border border-stone-300 bg-stone-50 p-2">
+            <TouchableOpacity onPress={handleLearnMore}>
+              <CircleHelp
+                size={24}
+                color={colors.stone[800]}
+                strokeWidth={2.25}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View className="mt-2 w-full flex-row items-center rounded-2xl border border-stone-300 bg-stone-50 p-2">
             <Search size={20} color={colors.stone[700]} />
             <TextInput
               placeholder="Pesquisar..."
@@ -76,7 +108,7 @@ export function Home() {
             />
           </View>
         </View>
-        <View className="flex-1 gap-2">
+        <View className="flex-1 gap-1.5">
           <Text className="pl-3 font-inter-semibold text-lg text-stone-800">
             Tipos de Medida
           </Text>
@@ -94,11 +126,12 @@ export function Home() {
       </View>
 
       <FlatList
+        ref={measureListRef}
         data={typesOfMeasure}
         keyExtractor={(item) => item.type}
         renderItem={renderMeasureItem}
         className="bg-orange-50"
-        contentContainerStyle={{ paddingBottom: 16 }}
+        contentContainerStyle={{ paddingBottom: 48 }}
       />
     </SafeAreaView>
   );

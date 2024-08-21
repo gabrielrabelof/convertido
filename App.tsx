@@ -8,9 +8,7 @@ import {
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
 
-import { Home } from "@screens/Home";
-import { LearnMore } from "@screens/LeanMore";
-import { Conversion } from "@screens/Conversion";
+import { Route } from "@routes";
 
 import { Loading } from "@components/Loading";
 
@@ -28,7 +26,7 @@ export default function App() {
 
   return (
     <>
-      <LearnMore />
+      <Route />
       <StatusBar
         backgroundColor="transparent"
         barStyle={"dark-content"}

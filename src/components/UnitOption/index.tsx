@@ -1,5 +1,7 @@
 import { Text, TouchableOpacity } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { ArrowUpRight } from "lucide-react-native";
 
 import { colors } from "@styles/colors";
@@ -10,10 +12,18 @@ type Props = {
 };
 
 export function UnitOption({ unit, description }: Props) {
+  const navigation = useNavigation();
+
+  function handleConversion() {
+    navigation.navigate("conversion");
+  }
+
   return (
     <TouchableOpacity
+      onPress={handleConversion}
       activeOpacity={0.7}
-      className="m-1 h-24 w-44 flex-col justify-between rounded-lg border border-stone-300 bg-orange-200 p-3"
+      style={{ width: "47.5%" }}
+      className="m-1 h-24 flex-col justify-between rounded-lg border border-stone-300 bg-orange-200 p-3"
     >
       <ArrowUpRight
         size={20}
