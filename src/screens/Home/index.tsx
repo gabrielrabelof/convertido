@@ -27,14 +27,6 @@ type MeasureType = {
   icon: (color: string) => JSX.Element;
 };
 
-const RenderUnitOption = memo(({ unit }: { unit: Unit }) => (
-  <UnitOption
-    unit={unit}
-    description={`Converter de ${unit} para unidades atuais`}
-  />
-));
-RenderUnitOption.displayName = "RenderUnitOption";
-
 export function Home() {
   const navigation = useNavigation();
   const measureListRef = useRef<FlatList>(null);
@@ -50,6 +42,26 @@ export function Home() {
     }
   }
 
+  const RenderUnitOption = memo(
+    ({
+      unit,
+      icon,
+      measureType,
+    }: {
+      unit: Unit;
+      icon: JSX.Element;
+      measureType: string;
+    }) => {
+      const description =
+        measureType === "Tempo"
+          ? `Informações sobre ${unit} citadas na bíblia`
+          : `Converter de ${unit} para unidades atuais`;
+
+      return <UnitOption unit={unit} description={description} icon={icon} />;
+    },
+  );
+  RenderUnitOption.displayName = "RenderUnitOption";
+
   const renderTypeItem: ListRenderItem<MeasureType> = ({ item }) => (
     <TypeOption
       icon={item.icon("white")}
@@ -58,9 +70,13 @@ export function Home() {
     />
   );
 
-  const renderUnitItem: ListRenderItem<Unit> = ({ item: unit }) => (
-    <RenderUnitOption unit={unit} />
-  );
+  const renderUnitItem = (icon: JSX.Element, measureType: string) => {
+    const RenderUnit = ({ item: unit }: { item: Unit }) => (
+      <RenderUnitOption unit={unit} icon={icon} measureType={measureType} />
+    );
+
+    return RenderUnit;
+  };
 
   const renderMeasureItem: ListRenderItem<MeasureType> = ({ item }) => (
     <>
@@ -74,7 +90,7 @@ export function Home() {
         <FlatList
           data={item.units}
           keyExtractor={(unit) => unit}
-          renderItem={renderUnitItem}
+          renderItem={renderUnitItem(item.icon(colors.stone[800]), item.type)}
           numColumns={2}
           className="px-1"
         />

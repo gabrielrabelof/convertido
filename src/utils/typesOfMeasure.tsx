@@ -17,7 +17,7 @@ const Icon = (IconComponent: LucideIcon, color: string) => (
 export const typesOfMeasure = [
   {
     type: "Comprimento",
-    units: ["Côvado", "Dedo", "Palmo", "Braça", "Cana"],
+    units: ["Braça", "Cana", "Côvado", "Dedo", "Palmo"],
     icon: (color: string) => Icon(Ruler, color),
   },
   {
@@ -55,14 +55,13 @@ export const typesOfMeasure = [
       "Tetradracma",
       "Estáter",
       "Lepto",
-      "Mina",
       "Quadrante",
     ],
     icon: (color: string) => Icon(Coins, color),
   },
   {
     type: "Tempo",
-    units: ["Dia", "Noite", "Hora", "Vigília"],
+    units: ["Dia", "Noite", "Horas", "Vigília"],
     icon: (color: string) => Icon(Hourglass, color),
   },
   {

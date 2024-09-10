@@ -1,10 +1,4 @@
-import {
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Text,
-  ScrollView,
-} from "react-native";
+import { View, TouchableOpacity, Text, ScrollView } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -62,7 +56,7 @@ export function LearnMore() {
                 title="Base de Dados"
                 subtitle="As medidas de referência foram coletadas do seguinte site:"
                 children={
-                  <TouchableWithoutFeedback
+                  <TouchableOpacity
                     onPress={() =>
                       openURL(
                         "https://estiloadoracao.com/pesos-e-medidas-biblicas/",
@@ -75,7 +69,7 @@ export function LearnMore() {
                     >
                       https://estiloadoracao.com/pesos-e-medidas-biblicas/
                     </Text>
-                  </TouchableWithoutFeedback>
+                  </TouchableOpacity>
                 }
               />
 
@@ -119,13 +113,13 @@ export function LearnMore() {
                 <Text className="font-inter-semibold text-base text-stone-700">
                   Convertido App
                 </Text>
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                   onPress={() => openURL("mailto:convertidoapp@gmail.com")}
                 >
                   <Text className="font-inter-regular text-xs text-zinc-500 underline">
                     convertidoapp@gmail.com
                   </Text>
-                </TouchableWithoutFeedback>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

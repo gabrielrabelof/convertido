@@ -1,4 +1,4 @@
-import { StatusBar } from "react-native";
+import { StatusBar, LogBox } from "react-native";
 
 import {
   useFonts,
@@ -11,6 +11,10 @@ import {
 import { Route } from "@routes";
 
 import { Loading } from "@components/Loading";
+
+LogBox.ignoreLogs([
+  "Non-serializable values were found in the navigation state",
+]);
 
 export default function App() {
   const [isLoaded, error] = useFonts({

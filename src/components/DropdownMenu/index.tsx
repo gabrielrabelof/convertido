@@ -32,6 +32,13 @@ export function DropdownMenu({
     setIsMenuOpen(false);
   }
 
+  function truncateText(text: string, maxLength: number = 10): string {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  }
+
   return (
     <>
       <TouchableOpacity
@@ -52,18 +59,18 @@ export function DropdownMenu({
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => handleSelectOption(item)}
-              className="flex-1 flex-row items-center justify-between px-2 pb-5"
+              className="flex-1 flex-row items-center justify-between px-2 py-2"
             >
               <Text className="font-inter-bold text-sm text-stone-700">
                 {item.tag}
               </Text>
               <Text className="font-inter-medium text-xxs text-stone-400">
-                {item.option}
+                {truncateText(item.option)}
               </Text>
             </TouchableOpacity>
           )}
           showsVerticalScrollIndicator={false}
-          className="absolute -right-5 top-10 z-10 h-28 w-24 rounded-xl border border-stone-400 bg-stone-50 py-1"
+          className="absolute -right-5 top-10 z-10 max-h-20 w-28 rounded-xl border border-stone-400 bg-stone-50 py-1"
         />
       )}
     </>

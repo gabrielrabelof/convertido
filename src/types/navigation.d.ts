@@ -3,7 +3,10 @@ export declare global {
     interface RootParamList {
       home: undefined;
       learn: undefined;
-      conversion: undefined;
+      conversion: {
+        unit: string;
+        icon: JSX.Element;
+      };
     }
   }
 }

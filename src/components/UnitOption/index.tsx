@@ -9,18 +9,19 @@ import { colors } from "@styles/colors";
 type Props = {
   unit: string;
   description: string;
+  icon: JSX.Element;
 };
 
-export function UnitOption({ unit, description }: Props) {
+export function UnitOption({ unit, description, icon }: Props) {
   const navigation = useNavigation();
 
-  function handleConversion() {
-    navigation.navigate("conversion");
+  function handleConversion(unit: string) {
+    navigation.navigate("conversion", { unit, icon });
   }
 
   return (
     <TouchableOpacity
-      onPress={handleConversion}
+      onPress={() => handleConversion(unit)}
       activeOpacity={0.7}
       style={{ width: "47.5%" }}
       className="m-1 h-24 flex-col justify-between rounded-lg border border-stone-300 bg-orange-200 p-3"
