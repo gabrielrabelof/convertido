@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { memo, useState, useRef } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Search, CircleHelp } from "lucide-react-native";
+
+import clsx from "clsx";
 
 import { colors } from "@styles/colors";
 
@@ -29,6 +31,8 @@ type MeasureType = {
 export function Home() {
   const navigation = useNavigation();
   const measureListRef = useRef<FlatList>(null);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const [flashType, setFlashType] = useState<string | null>(null);
 
   function handleLearnMore() {
     navigation.navigate("learn");
@@ -42,6 +46,12 @@ export function Home() {
     let index = typesOfMeasure.findIndex((item) => item.type === type);
     if (index !== -1 && measureListRef.current) {
       measureListRef.current.scrollToIndex({ index, animated: true });
+
+      if (selectedType === type) {
+        setFlashType(type);
+        setTimeout(() => setFlashType(null), 500);
+      }
+      setSelectedType(type);
     }
   }
 
@@ -75,7 +85,11 @@ export function Home() {
 
   const renderMeasureItem: ListRenderItem<MeasureType> = ({ item }) => (
     <>
-      <View className="mb-4 mt-3 flex-row items-center justify-between p-3">
+      <View
+        className={clsx("flex-row items-center justify-between p-3 pb-4 pt-3", {
+          "bg-orange-100 opacity-75": flashType === item.type,
+        })}
+      >
         <Text className="font-inter-semibold text-lg text-stone-800">
           {item.type}
         </Text>
@@ -87,7 +101,9 @@ export function Home() {
           keyExtractor={(unit) => unit}
           renderItem={renderUnitItem(item.type)}
           numColumns={2}
-          className="px-1"
+          className={clsx("px-1", {
+            "bg-orange-100 opacity-90": flashType === item.type,
+          })}
         />
       )}
     </>
