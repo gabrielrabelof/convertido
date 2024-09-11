@@ -114,8 +114,12 @@ export const conversionMeasures = [
     conversions: [{ tag: "l", unit: "litros", factor: 5.87 }],
   },
   {
-    unit: "Coro",
+    unit: "Coro Seco",
     conversions: [{ tag: "l", unit: "litros", factor: 176.2 }],
+  },
+  {
+    unit: "Coro Líquido",
+    conversions: [{ tag: "l", unit: "litros", factor: 208.2 }],
   },
   {
     unit: "Efa",

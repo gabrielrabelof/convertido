@@ -9,14 +9,13 @@ import { colors } from "@styles/colors";
 type Props = {
   unit: string;
   description: string;
-  icon: JSX.Element;
 };
 
-export function UnitOption({ unit, description, icon }: Props) {
+export function UnitOption({ unit, description }: Props) {
   const navigation = useNavigation();
 
   function handleConversion(unit: string) {
-    navigation.navigate("conversion", { unit, icon });
+    navigation.navigate("conversion", { unit });
   }
 
   return (

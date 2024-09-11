@@ -10,7 +10,12 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ChevronLeft, ArrowDownUp, ClipboardList } from "lucide-react-native";
+import {
+  ChevronLeft,
+  ArrowDownUp,
+  ClipboardList,
+  PencilRuler,
+} from "lucide-react-native";
 import clsx from "clsx";
 
 import { colors } from "@styles/colors";
@@ -22,13 +27,12 @@ import { InfoCard } from "@components/InfoCard";
 
 type RouteParams = {
   unit: string;
-  icon: JSX.Element;
 };
 
 export function Conversion() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { unit, icon } = route.params as RouteParams;
+  const { unit } = route.params as RouteParams;
 
   const [options, setOptions] = useState<{ option: string; tag: string }[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -39,8 +43,10 @@ export function Conversion() {
 
   const inputRef = useRef<TextInput>(null);
 
+  const icon = <PencilRuler size={24} color={colors.stone[700]} />;
+
   function handleHome() {
-    navigation.navigate("home");
+    navigation.goBack();
   }
 
   function handleSwapInputs() {
@@ -295,7 +301,7 @@ export function Conversion() {
                         </Text>
                       </View>
                     ) : (
-                      <View className="flex-1 gap-3 pl-1">
+                      <View className="-z-50 flex-1 gap-3 pl-1">
                         <Text className="font-inter-medium text-xs text-stone-500">
                           {parseFloat(
                             inputValue.replace(",", "."),

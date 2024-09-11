@@ -5,8 +5,8 @@ export declare global {
       learn: undefined;
       conversion: {
         unit: string;
-        icon: JSX.Element;
       };
+      search: undefined;
     }
   }
 }

@@ -2,7 +2,6 @@ import { memo, useRef } from "react";
 import {
   View,
   Text,
-  TextInput,
   FlatList,
   ListRenderItem,
   TouchableOpacity,
@@ -35,6 +34,10 @@ export function Home() {
     navigation.navigate("learn");
   }
 
+  function handleSearch() {
+    navigation.navigate("search");
+  }
+
   function handleScrollToType(type: string) {
     let index = typesOfMeasure.findIndex((item) => item.type === type);
     if (index !== -1 && measureListRef.current) {
@@ -43,21 +46,13 @@ export function Home() {
   }
 
   const RenderUnitOption = memo(
-    ({
-      unit,
-      icon,
-      measureType,
-    }: {
-      unit: Unit;
-      icon: JSX.Element;
-      measureType: string;
-    }) => {
+    ({ unit, measureType }: { unit: Unit; measureType: string }) => {
       const description =
         measureType === "Tempo"
           ? `Informações sobre ${unit} citadas na bíblia`
           : `Converter de ${unit} para unidades atuais`;
 
-      return <UnitOption unit={unit} description={description} icon={icon} />;
+      return <UnitOption unit={unit} description={description} />;
     },
   );
   RenderUnitOption.displayName = "RenderUnitOption";
@@ -70,9 +65,9 @@ export function Home() {
     />
   );
 
-  const renderUnitItem = (icon: JSX.Element, measureType: string) => {
+  const renderUnitItem = (measureType: string) => {
     const RenderUnit = ({ item: unit }: { item: Unit }) => (
-      <RenderUnitOption unit={unit} icon={icon} measureType={measureType} />
+      <RenderUnitOption unit={unit} measureType={measureType} />
     );
 
     return RenderUnit;
@@ -90,7 +85,7 @@ export function Home() {
         <FlatList
           data={item.units}
           keyExtractor={(unit) => unit}
-          renderItem={renderUnitItem(item.icon(colors.stone[800]), item.type)}
+          renderItem={renderUnitItem(item.type)}
           numColumns={2}
           className="px-1"
         />
@@ -116,13 +111,16 @@ export function Home() {
             </TouchableOpacity>
           </View>
 
-          <View className="mt-2 w-full flex-row items-center rounded-2xl border border-stone-300 bg-stone-50 p-2">
-            <Search size={20} color={colors.stone[700]} />
-            <TextInput
-              placeholder="Pesquisar..."
-              className="ml-3 flex-1 font-inter-medium text-sm"
-            />
-          </View>
+          <TouchableOpacity
+            onPress={handleSearch}
+            activeOpacity={1}
+            className="mt-2 w-full flex-row items-center rounded-2xl border border-stone-300 bg-stone-50 p-3 py-3.5"
+          >
+            <Search size={22} color={colors.stone[700]} />
+            <Text className="ml-3 font-inter-medium text-sm text-zinc-500">
+              Pesquise por unidades ou tipos
+            </Text>
+          </TouchableOpacity>
         </View>
         <View className="flex-1 gap-1.5">
           <Text className="pl-3 font-inter-semibold text-lg text-stone-800">

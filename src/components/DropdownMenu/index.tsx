@@ -70,7 +70,7 @@ export function DropdownMenu({
             </TouchableOpacity>
           )}
           showsVerticalScrollIndicator={false}
-          className="absolute -right-5 top-10 z-10 max-h-20 w-28 rounded-xl border border-stone-400 bg-stone-50 py-1"
+          className="absolute -right-5 top-10 z-50 max-h-20 w-28 rounded-xl border border-stone-400 bg-stone-50 py-1"
         />
       )}
     </>

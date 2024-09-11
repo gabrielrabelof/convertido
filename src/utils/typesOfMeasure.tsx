@@ -75,7 +75,7 @@ export const typesOfMeasure = [
       "Alqueire",
       "Cabo",
       "Caliche",
-      "Coro",
+      "Coro Seco",
       "Efa",
       "Gômer",
       "Leteque",
@@ -87,7 +87,15 @@ export const typesOfMeasure = [
   },
   {
     type: "Medidas Líquidas",
-    units: ["Bato", "Cado", "Coro", "Him", "Logue", "Metreta", "Sextário"],
+    units: [
+      "Bato",
+      "Cado",
+      "Coro Líquido",
+      "Him",
+      "Logue",
+      "Metreta",
+      "Sextário",
+    ],
     icon: (color: string) => Icon(FlaskRound, color),
   },
 ];
