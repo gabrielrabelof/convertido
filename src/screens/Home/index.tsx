@@ -1,4 +1,4 @@
-import { memo, useState, useRef } from "react";
+import { memo, useRef } from "react";
 import {
   View,
   Text,
@@ -11,7 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Search, CircleHelp } from "lucide-react-native";
 
-import clsx from "clsx";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  interpolate,
+  interpolateColor,
+  withTiming,
+  Easing,
+} from "react-native-reanimated";
 
 import { colors } from "@styles/colors";
 
@@ -31,8 +38,8 @@ type MeasureType = {
 export function Home() {
   const navigation = useNavigation();
   const measureListRef = useRef<FlatList>(null);
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [flashType, setFlashType] = useState<string | null>(null);
+
+  const flash = useSharedValue(0);
 
   function handleLearnMore() {
     navigation.navigate("learn");
@@ -42,16 +49,36 @@ export function Home() {
     navigation.navigate("search");
   }
 
+  function handleFlashAnimation(start: number, end: number) {
+    flash.value = withTiming(
+      start,
+      { duration: 600, easing: Easing.linear },
+      (finished) => {
+        if (finished) {
+          flash.value = withTiming(end, {
+            duration: 600,
+            easing: Easing.linear,
+          });
+        }
+      },
+    );
+  }
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    backgroundColor: interpolateColor(
+      flash.value,
+      [0, 1],
+      [colors.orange[50], colors.orange[300]],
+    ),
+    opacity: interpolate(flash.value, [0, 1], [1, 0.35]),
+  }));
+
   function handleScrollToType(type: string) {
     let index = typesOfMeasure.findIndex((item) => item.type === type);
+
     if (index !== -1 && measureListRef.current) {
       measureListRef.current.scrollToIndex({ index, animated: true });
-
-      if (selectedType === type) {
-        setFlashType(type);
-        setTimeout(() => setFlashType(null), 500);
-      }
-      setSelectedType(type);
+      handleFlashAnimation(1, 0);
     }
   }
 
@@ -85,25 +112,23 @@ export function Home() {
 
   const renderMeasureItem: ListRenderItem<MeasureType> = ({ item }) => (
     <>
-      <View
-        className={clsx("flex-row items-center justify-between p-3 pb-4 pt-3", {
-          "bg-orange-100 opacity-75": flashType === item.type,
-        })}
-      >
+      <Animated.View
+        className="absolute bottom-0 left-0 right-0 top-0"
+        style={animatedStyle}
+      />
+      <Animated.View className="flex-row items-center justify-between p-3 pb-4 pt-3">
         <Text className="font-inter-semibold text-lg text-stone-800">
           {item.type}
         </Text>
         {item.icon(colors.stone[800])}
-      </View>
+      </Animated.View>
       {item.units && (
-        <FlatList
+        <Animated.FlatList
           data={item.units}
           keyExtractor={(unit) => unit}
           renderItem={renderUnitItem(item.type)}
           numColumns={2}
-          className={clsx("px-1", {
-            "bg-orange-100 opacity-90": flashType === item.type,
-          })}
+          className="px-1 pb-6"
         />
       )}
     </>
@@ -138,7 +163,7 @@ export function Home() {
             </Text>
           </TouchableOpacity>
         </View>
-        <View className="flex-1 gap-1.5">
+        <View className="flex-1 gap-1">
           <Text className="pl-3 font-inter-semibold text-lg text-stone-800">
             Tipos de Medida
           </Text>
@@ -161,7 +186,6 @@ export function Home() {
         keyExtractor={(item) => item.type}
         renderItem={renderMeasureItem}
         className="bg-orange-50"
-        contentContainerStyle={{ paddingBottom: 48 }}
       />
     </SafeAreaView>
   );

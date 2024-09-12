@@ -7,9 +7,13 @@ export const colors = {
     800: "#292524",
   },
   orange: {
+    50: "#fff7ed",
+    100: "#ffedd5",
     200: "#fed7aa",
+    300: "#fdba74",
   },
   amber: {
+    900: "#78350f",
     950: "#451a03",
   },
 };
