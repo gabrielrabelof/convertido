@@ -34,15 +34,7 @@ export const typesOfMeasure = [
   },
   {
     type: "Pesos",
-    units: [
-      "Beca",
-      "Gera",
-      "Libra romana",
-      "Mina",
-      "Arrátel",
-      "Siclo",
-      "Talento",
-    ],
+    units: ["Beca", "Gera", "Libra romana", "Arrátel", "Siclo", "Talento"],
     icon: (color: string) => Icon(Weight, color),
   },
   {
@@ -55,6 +47,7 @@ export const typesOfMeasure = [
       "Tetradracma",
       "Estáter",
       "Lepto",
+      "Mina",
       "Quadrante",
     ],
     icon: (color: string) => Icon(Coins, color),
@@ -71,18 +64,7 @@ export const typesOfMeasure = [
   },
   {
     type: "Medidas Secas",
-    units: [
-      "Alqueire",
-      "Cabo",
-      "Caliche",
-      "Coro Seco",
-      "Efa",
-      "Gômer",
-      "Leteque",
-      "Medida",
-      "Ômer",
-      "Seá",
-    ],
+    units: ["Cabo", "Coro Seco", "Efa", "Gômer", "Ômer", "Seá"],
     icon: (color: string) => Icon(Scale, color),
   },
   {

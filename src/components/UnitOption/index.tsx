@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity, Alert } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -7,20 +7,28 @@ import { ArrowUpRight } from "lucide-react-native";
 import { colors } from "@styles/colors";
 
 type Props = {
+  type: string;
   unit: string;
   description: string;
 };
 
-export function UnitOption({ unit, description }: Props) {
+export function UnitOption({ type, unit, description }: Props) {
   const navigation = useNavigation();
 
-  function handleConversion(unit: string) {
-    navigation.navigate("conversion", { unit });
+  function handleConversion() {
+    navigation.navigate("conversion", { unit, type });
+  }
+
+  function handleUnitDisabled() {
+    Alert.alert(
+      "Unidade indisponível",
+      "As conversões para unidades de tempo ainda estão em desenvolvimento.",
+    );
   }
 
   return (
     <TouchableOpacity
-      onPress={() => handleConversion(unit)}
+      onPress={type === "Tempo" ? handleUnitDisabled : handleConversion}
       activeOpacity={0.7}
       style={{ width: "47.5%" }}
       className="m-1 h-24 flex-col justify-between rounded-lg border border-stone-300 bg-orange-200 p-3"

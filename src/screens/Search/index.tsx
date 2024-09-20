@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { ArrowLeft, CircleX } from "lucide-react-native";
+import { ArrowLeft, CircleX, SearchX } from "lucide-react-native";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -29,8 +29,8 @@ export function Search() {
     navigation.navigate("home");
   }
 
-  function handleConversion() {
-    navigation.navigate("conversion", { unit: "Talento" });
+  function handleConversion(unit: string) {
+    navigation.navigate("conversion", { unit });
   }
 
   function clearInput() {
@@ -71,7 +71,7 @@ export function Search() {
         <TouchableOpacity onPress={handleBack} className="h-7 w-7">
           <ArrowLeft size={24} color={colors.stone[800]} />
         </TouchableOpacity>
-        <View className="mt-4 flex-row items-center justify-between rounded-2xl border border-stone-300 bg-stone-50 p-3 px-4">
+        <View className="mt-3 flex-row items-center justify-between rounded-2xl border border-stone-300 bg-stone-50 p-3 px-4">
           <TextInput
             ref={inputRef}
             placeholder="Pesquise por unidades ou tipos"
@@ -88,24 +88,37 @@ export function Search() {
       </View>
 
       {searchQuery ? (
-        <FlatList
-          data={filteredUnits}
-          keyExtractor={(item) => `${item.type}-${item.unit}`}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={handleConversion}>
-              <View className="p-4">
-                <Text className="font-inter-semibold text-base text-zinc-800">
-                  {item.unit}
-                </Text>
-                <Text className="font-inter-semibold text-orange-900">
-                  {item.type}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
+        filteredUnits.length > 0 ? (
+          <FlatList
+            data={filteredUnits}
+            keyExtractor={(item) => `${item.type}-${item.unit}`}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleConversion(item.unit)}>
+                <View className="p-4">
+                  <Text className="font-inter-semibold text-base text-zinc-800">
+                    {item.unit}
+                  </Text>
+                  <Text className="font-inter-semibold text-orange-900">
+                    {item.type}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        ) : (
+          <View className="flex-1 items-center justify-center px-10">
+            <SearchX size={32} color={colors.stone[700]} />
+            <Text className="mb-1 mt-3 font-inter-semibold text-lg text-stone-700">
+              Nenhum resultado de pesquisa
+            </Text>
+            <Text className="text-center font-inter-regular text-sm text-stone-500">
+              Não foi possível encontrar a unidade ou tipo que você está
+              procurando
+            </Text>
+          </View>
+        )
       ) : (
-        <View className="mt-3 p-3">
+        <View className="mt-2 p-3">
           <Text className="font-inter-semibold text-lg text-stone-800">
             Pesquisas Populares
           </Text>

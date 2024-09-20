@@ -26,13 +26,14 @@ import { DropdownMenu } from "@components/DropdownMenu";
 import { InfoCard } from "@components/InfoCard";
 
 type RouteParams = {
+  type: string;
   unit: string;
 };
 
 export function Conversion() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { unit } = route.params as RouteParams;
+  const { type, unit } = route.params as RouteParams;
 
   const [options, setOptions] = useState<{ option: string; tag: string }[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -40,6 +41,7 @@ export function Conversion() {
   const [isSwapped, setIsSwapped] = useState(false);
   const [result, setResult] = useState("");
   const [unitFactor, setUnitFactor] = useState(0);
+  const [verse, setVerse] = useState("");
 
   const inputRef = useRef<TextInput>(null);
 
@@ -90,6 +92,8 @@ export function Conversion() {
             setUnitFactor(matchingUnit.conversions[0].factor);
           }
         }
+
+        setVerse(matchingUnit.verse);
       }
     },
     [],
@@ -203,9 +207,19 @@ export function Conversion() {
               </View>
             </View>
             <Text className="font-inter-medium text-xxs text-stone-400">
-              {isSwapped
-                ? `${unitFactor.toLocaleString("pt-BR")} ${selectedOption} ≅ 1 ${unit}`
-                : `1 ${unit} ≅ ${unitFactor.toLocaleString("pt-BR")} ${selectedOption}`}
+              {type === "Dinheiro" ? (
+                <>
+                  {isSwapped
+                    ? `${selectedOption} ${unitFactor.toLocaleString("pt-BR")} ≅ 1 ${unit}`
+                    : `1 ${unit} ≅ ${selectedOption} ${unitFactor.toLocaleString("pt-BR")}`}
+                </>
+              ) : (
+                <>
+                  {isSwapped
+                    ? `${unitFactor.toLocaleString("pt-BR")} ${selectedOption} ≅ 1 ${unit}`
+                    : `1 ${unit} ≅ ${unitFactor.toLocaleString("pt-BR")} ${selectedOption}`}
+                </>
+              )}
             </Text>
 
             <TouchableOpacity
@@ -263,21 +277,69 @@ export function Conversion() {
                     {isSwapped ? (
                       <View className="flex-1 gap-3 pl-1">
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {inputValue} {selectedOption} ≅ {result} {unit}s.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {selectedOption}
+                              {parseFloat(inputValue.replace(",", "."))
+                                .toLocaleString("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                })
+                                .replace("R$", "")}{" "}
+                              ≅ {result} {unit}.
+                            </>
+                          ) : (
+                            <>
+                              {inputValue} {selectedOption} ≅ {result} {unit}.
+                            </>
+                          )}
                         </Text>
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {inputValue} {selectedOption} equivale a {"\n"}
-                          aproximadamente {result} {unit}.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {selectedOption}
+                              {parseFloat(inputValue.replace(",", "."))
+                                .toLocaleString("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                })
+                                .replace("R$", "")}{" "}
+                              equivale a {"\n"}
+                              aproximadamente {result} {unit}.
+                            </>
+                          ) : (
+                            <>
+                              {inputValue} {selectedOption} equivale a {"\n"}
+                              aproximadamente {result} {unit}.
+                            </>
+                          )}
                         </Text>
                       </View>
                     ) : (
                       <View className="flex-1 gap-3 pl-1">
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {inputValue} {unit} ≅ {result} {selectedOption}.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {inputValue} {unit} ≅ {selectedOption} {result}.
+                            </>
+                          ) : (
+                            <>
+                              {inputValue} {selectedOption} ≅ {result} {unit}.
+                            </>
+                          )}
                         </Text>
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {inputValue} {unit} equivale a {"\n"}
-                          aproximadamente {result} {selectedOption}.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {inputValue} {unit} equivale a {"\n"}
+                              aproximadamente {selectedOption} {result}.
+                            </>
+                          ) : (
+                            <>
+                              {inputValue} {unit} equivale a {"\n"}
+                              aproximadamente {result} {selectedOption}.
+                            </>
+                          )}
                         </Text>
                       </View>
                     )}
@@ -287,33 +349,87 @@ export function Conversion() {
                     {isSwapped ? (
                       <View className="flex-1 gap-3 pl-1">
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {parseFloat(
-                            inputValue.replace(",", "."),
-                          ).toLocaleString("pt-BR")}{" "}
-                          {selectedOption} ≅ {result} {unit}s.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {selectedOption}
+                              {parseFloat(inputValue.replace(",", "."))
+                                .toLocaleString("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                })
+                                .replace("R$", "")}{" "}
+                              ≅ {result} {unit}.
+                            </>
+                          ) : (
+                            <>
+                              {parseFloat(
+                                inputValue.replace(",", "."),
+                              ).toLocaleString("pt-BR")}{" "}
+                              {selectedOption} ≅ {result} {unit}.
+                            </>
+                          )}
                         </Text>
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {parseFloat(
-                            inputValue.replace(",", "."),
-                          ).toLocaleString("pt-BR")}{" "}
-                          {selectedOption} equivalem a {"\n"}
-                          aproximadamente {result} {unit}s.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {selectedOption}
+                              {parseFloat(inputValue.replace(",", "."))
+                                .toLocaleString("pt-BR", {
+                                  style: "currency",
+                                  currency: "BRL",
+                                })
+                                .replace("R$", "")}{" "}
+                              equivalem a {"\n"}
+                              aproximadamente {result} {unit}.
+                            </>
+                          ) : (
+                            <>
+                              {parseFloat(
+                                inputValue.replace(",", "."),
+                              ).toLocaleString("pt-BR")}{" "}
+                              {selectedOption} equivalem a {"\n"}
+                              aproximadamente {result} {unit}.
+                            </>
+                          )}
                         </Text>
                       </View>
                     ) : (
                       <View className="-z-50 flex-1 gap-3 pl-1">
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {parseFloat(
-                            inputValue.replace(",", "."),
-                          ).toLocaleString("pt-BR")}{" "}
-                          {unit}s ≅ {result} {selectedOption}.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {parseFloat(
+                                inputValue.replace(",", "."),
+                              ).toLocaleString("pt-BR")}{" "}
+                              {unit} ≅ {selectedOption} {result}.
+                            </>
+                          ) : (
+                            <>
+                              {parseFloat(
+                                inputValue.replace(",", "."),
+                              ).toLocaleString("pt-BR")}{" "}
+                              {selectedOption} ≅ {result} {unit}.
+                            </>
+                          )}
                         </Text>
                         <Text className="font-inter-medium text-xs text-stone-500">
-                          {parseFloat(
-                            inputValue.replace(",", "."),
-                          ).toLocaleString("pt-BR")}{" "}
-                          {unit}s equivalem a {"\n"}
-                          aproximadamente {result} {selectedOption}.
+                          {type === "Dinheiro" ? (
+                            <>
+                              {parseFloat(
+                                inputValue.replace(",", "."),
+                              ).toLocaleString("pt-BR")}{" "}
+                              {unit} equivalem a {"\n"}
+                              aproximadamente {selectedOption} {result}.
+                            </>
+                          ) : (
+                            <>
+                              {parseFloat(
+                                inputValue.replace(",", "."),
+                              ).toLocaleString("pt-BR")}{" "}
+                              {selectedOption} equivalem a {"\n"}
+                              aproximadamente {result} {unit}.
+                            </>
+                          )}
                         </Text>
                       </View>
                     )}
@@ -331,7 +447,7 @@ export function Conversion() {
             )}
 
             <View className="mb-1 self-center">
-              <InfoCard info="Em Apocalipse 16:21, João viu pedras caindo do céu com o peso de 1 talento, que são aproximadamente 35 quilos." />
+              <InfoCard info={verse} />
             </View>
           </View>
         </View>

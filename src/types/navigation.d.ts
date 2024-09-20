@@ -5,6 +5,7 @@ export declare global {
       learn: undefined;
       conversion: {
         unit: string;
+        type?: string;
       };
       search: undefined;
     }

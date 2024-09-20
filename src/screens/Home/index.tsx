@@ -1,4 +1,4 @@
-import { memo, useRef } from "react";
+import { memo, useCallback, useRef } from "react";
 import {
   View,
   Text,
@@ -89,28 +89,48 @@ export function Home() {
           ? `Informações sobre ${unit} citadas na bíblia`
           : `Converter de ${unit} para unidades atuais`;
 
-      return <UnitOption unit={unit} description={description} />;
+      return (
+        <UnitOption type={measureType} unit={unit} description={description} />
+      );
     },
   );
   RenderUnitOption.displayName = "RenderUnitOption";
 
-  const renderTypeItem: ListRenderItem<MeasureType> = ({ item }) => (
+  const RenderTypeOption = memo(({ item }: { item: MeasureType }) => (
     <TypeOption
       icon={item.icon("white")}
       type={item.type}
       onPress={handleScrollToType}
     />
+  ));
+  RenderTypeOption.displayName = "RenderTypeOption";
+
+  const renderTypeItem: ListRenderItem<MeasureType> = useCallback(
+    ({ item }) => <RenderTypeOption item={item} />,
+    [RenderTypeOption],
   );
 
-  const renderUnitItem = (measureType: string) => {
-    const RenderUnit = ({ item: unit }: { item: Unit }) => (
+  const RenderUnit = memo(
+    ({ unit, measureType }: { unit: Unit; measureType: string }) => (
       <RenderUnitOption unit={unit} measureType={measureType} />
-    );
+    ),
+  );
+  RenderUnit.displayName = "RenderUnit";
 
-    return RenderUnit;
-  };
+  const renderUnitItem = useCallback(
+    (measureType: string) => {
+      const RenderUnitComponent = ({ item }: { item: Unit }) => (
+        <RenderUnit unit={item} measureType={measureType} />
+      );
 
-  const renderMeasureItem: ListRenderItem<MeasureType> = ({ item }) => (
+      RenderUnitComponent.displayName = `RenderUnitComponent(${measureType})`;
+
+      return RenderUnitComponent;
+    },
+    [RenderUnit],
+  );
+
+  const RenderMeasureItem = memo(({ item }: { item: MeasureType }) => (
     <>
       <Animated.View
         className="absolute bottom-0 left-0 right-0 top-0"
@@ -132,6 +152,12 @@ export function Home() {
         />
       )}
     </>
+  ));
+  RenderMeasureItem.displayName = "RenderMeasureItem";
+
+  const renderMeasureItem: ListRenderItem<MeasureType> = useCallback(
+    ({ item }) => <RenderMeasureItem item={item} />,
+    [RenderMeasureItem],
   );
 
   return (

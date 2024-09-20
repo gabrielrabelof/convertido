@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "convertido",
+    "name": "Convertido",
     "slug": "convertido",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,13 +18,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#fed7aa"
-      }
+      },
+      "package": "com.gabrielrabelof.convertido"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a84e014b-5c54-4241-b1c8-2e314d616192"
+      }
+    }
   }
 }
