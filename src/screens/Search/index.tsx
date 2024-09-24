@@ -29,8 +29,8 @@ export function Search() {
     navigation.navigate("home");
   }
 
-  function handleConversion(unit: string) {
-    navigation.navigate("conversion", { unit });
+  function handleConversion(unit: string, type: string) {
+    navigation.navigate("conversion", { unit, type });
   }
 
   function clearInput() {
@@ -93,7 +93,9 @@ export function Search() {
             data={filteredUnits}
             keyExtractor={(item) => `${item.type}-${item.unit}`}
             renderItem={({ item }) => (
-              <TouchableOpacity onPress={() => handleConversion(item.unit)}>
+              <TouchableOpacity
+                onPress={() => handleConversion(item.unit, item.type)}
+              >
                 <View className="p-4">
                   <Text className="font-inter-semibold text-base text-zinc-800">
                     {item.unit}
