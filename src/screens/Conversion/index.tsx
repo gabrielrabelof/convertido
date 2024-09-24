@@ -324,7 +324,7 @@ export function Conversion() {
                             </>
                           ) : (
                             <>
-                              {inputValue} {selectedOption} ≅ {result} {unit}.
+                              {inputValue} {unit} ≅ {result} {selectedOption}.
                             </>
                           )}
                         </Text>
@@ -408,7 +408,7 @@ export function Conversion() {
                               {parseFloat(
                                 inputValue.replace(",", "."),
                               ).toLocaleString("pt-BR")}{" "}
-                              {selectedOption} ≅ {result} {unit}.
+                              {unit} ≅ {result} {selectedOption}.
                             </>
                           )}
                         </Text>
@@ -426,8 +426,8 @@ export function Conversion() {
                               {parseFloat(
                                 inputValue.replace(",", "."),
                               ).toLocaleString("pt-BR")}{" "}
-                              {selectedOption} equivalem a {"\n"}
-                              aproximadamente {result} {unit}.
+                              {unit} equivalem a {"\n"}
+                              aproximadamente {result} {selectedOption}.
                             </>
                           )}
                         </Text>
