@@ -1,4 +1,4 @@
-import { StatusBar } from "react-native";
+import { StatusBar, View } from "react-native";
 
 import {
   useFonts,
@@ -25,13 +25,13 @@ export default function App() {
   }
 
   return (
-    <>
+    <View className="flex-1">
       <Route />
       <StatusBar
         backgroundColor="transparent"
         barStyle={"dark-content"}
         translucent
       />
-    </>
+    </View>
   );
 }
