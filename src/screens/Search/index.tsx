@@ -5,6 +5,7 @@ import {
   FlatList,
   Text,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 import { ArrowLeft, CircleX, SearchX } from "lucide-react-native";
@@ -31,6 +32,13 @@ export function Search() {
 
   function handleConversion(unit: string, type: string) {
     navigation.navigate("conversion", { unit, type });
+  }
+
+  function handleUnitDisabled() {
+    Alert.alert(
+      "Unidade indisponível",
+      "As conversões para unidades de tempo ainda estão em desenvolvimento.",
+    );
   }
 
   function clearInput() {
@@ -94,7 +102,11 @@ export function Search() {
             keyExtractor={(item) => `${item.type}-${item.unit}`}
             renderItem={({ item }) => (
               <TouchableOpacity
-                onPress={() => handleConversion(item.unit, item.type)}
+                onPress={() =>
+                  item.type === "Tempo"
+                    ? handleUnitDisabled()
+                    : handleConversion(item.unit, item.type)
+                }
               >
                 <View className="p-4">
                   <Text className="font-inter-semibold text-base text-zinc-800">
@@ -132,7 +144,7 @@ export function Search() {
             <RedirectButton title="Talento" />
             <RedirectButton title="Denário" />
             <RedirectButton title="Dracma" />
-            <RedirectButton title="Horas" />
+            <RedirectButton title="Estáter" />
             <RedirectButton title="Jeira" />
             <RedirectButton title="Gômer" />
             <RedirectButton title="Him" />
